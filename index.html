@@ -29,7 +29,7 @@
     </div>
 
     <div class='item-container'>
-      <div class='item-container-header'>Color</div>
+      <div class='item-container-header'>Background</div>
       <div class='item-container-content'>
         <label class='item'>
           Background 
@@ -38,6 +38,16 @@
       </div>
     </div>
 
+    <div class='item-container'>
+      <div class='item-container-header'>Foreground</div>
+      <div class='item-container-content'>
+        <label class='item'>
+          Foreground 
+          <input id='foreground_color_picker' type='text' class='item-color item-color-sunny' value='#FFFFFF'>
+        </label>
+      </div>
+    </div>
+    
     <div class="item-container">
       <div class="item-container-header">Step Graph</div>
       <div class="item-container-content">
@@ -70,11 +80,13 @@
     
     var options = {
       'background_color': backgroundColorPicker.value,
+      'foreground_color': foregroundColorPicker.value,
       'step_count': stepVal
     };
 
     // Save for next launch
     localStorage['background_color'] = options.background_color;
+    localStorage['foreground_color'] = options.foreground_color;
     localStorage['step_count'] = options.step_count;
 
     console.log('Got options: ' + JSON.stringify(options));
@@ -102,10 +114,12 @@
       var return_to = getQueryParam('return_to', 'pebblejs://close#');
       document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
     });
-}
+  }
+
 
   (function() {
     var backgroundColorPicker = document.getElementById('background_color_picker');
+    var foregroundColorPicker = document.getElementById('foreground_color_picker');
     var step_count = document.getElementById('step_count');
 
     // Load any previously saved configuration, if available
@@ -113,6 +127,11 @@
       var steps = localStorage['step_count'];
       $('#step_count option[value="' + steps + '"]').prop('selected', true);
       backgroundColorPicker.value = localStorage['background_color'];
+      foregroundColorPicker.value = localStorage['foreground_color'];
+      var cs = $('#color_sample');
+      cs.css('background_color', '#00FF00');
+      $('#color_sample').css('background_color', localStorage['background_color']);
+      $('#color_sample').css('color', localStorage['foreground_color']);
     }
     submitHandler();
   })();
